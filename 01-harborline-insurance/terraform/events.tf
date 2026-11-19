@@ -3,7 +3,9 @@ resource "azurerm_eventgrid_event_subscription" "claims_uploads" {
   scope = azurerm_storage_account.claims.id
 
   azure_function_endpoint {
-    function_id = "${azurerm_function_app_flex_consumption.claims.id}/functions/log_claim_upload"
+    function_id                       = "${azurerm_function_app_flex_consumption.claims.id}/functions/log_claim_upload"
+    max_events_per_batch              = 1
+    preferred_batch_size_in_kilobytes = 64
   }
 
   included_event_types = ["Microsoft.Storage.BlobCreated"]
